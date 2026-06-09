@@ -84,12 +84,17 @@ function finishMatch(id){const m=data.matches.find(x=>x.id==id);if(!m)return;if(
 function reopenMatch(id){const m=data.matches.find(x=>x.id==id);if(!m||!m.finished)return;if(m.winner==="Empate")data.tiePool=Math.max(0,data.tiePool-50);m.finished=false;m.paid=false;m.winner="";save();}
 function deleteMatch(id){const m=data.matches.find(x=>x.id==id);if(!m)return;if(m.phase==="Fase de grupos"){alert("Los partidos de fase de grupos no se eliminan.");return;}if(m.winner==="Empate")data.tiePool=Math.max(0,data.tiePool-50);data.matches=data.matches.filter(x=>x.id!=id);save();}
 function getOwner(team){return data.teams[team]||"Sin asignar";}
-function getTeamGain(team){let total=0,wins=0,prizes=0;data.matches.forEach(m=>{if(m.finished&&m.winner===team){total+=50;wins++;if(m.phase==="Final"){total+=3000+data.tiePool;prizes+=3000+data.tiePool;}if(m.phase==="Tercer lugar"){total+=1800;prizes+=1800;}}if(m.finished&&m.phase==="Final"&&m.winner!=="Empate"){const loser=m.winner===m.a?m.b:m.a;if(team===loser){total+=2000;prizes+=2000;}}});return{total,wins,prizes};}
+function getTeamGain(team){let total=0,wins=0,prizes=0;getAllMatches().forEach(m=>{if(m.finished&&m.winner===team){total+=50;wins++;if(m.phase==="Final"){total+=3000+data.tiePool;prizes+=3000+data.tiePool;}if(m.phase==="Tercer lugar"){total+=1800;prizes+=1800;}}if(m.finished&&m.phase==="Final"&&m.winner!=="Empate"){const loser=m.winner===m.a?m.b:m.a;if(team===loser){total+=2000;prizes+=2000;}}});return{total,wins,prizes};}
 function getPersonGain(person){let total=0,wins=0,prizes=0;const teams=Object.keys(data.teams).filter(t=>data.teams[t]===person);teams.forEach(team=>{const g=getTeamGain(team);total+=g.total;wins+=g.wins;prizes+=g.prizes;});return{teams,total,wins,prizes};}
 function matchHTML(m,editable=false){return `<div class="match"><div class="small">${m.group?m.group+" · ":""}${m.phase}</div><div class="team"><span><span class="team-name">${m.a}</span> <span class="owner">${getOwner(m.a)}</span></span><strong>${m.scoreA===""?"-":m.scoreA}</strong></div><div class="team"><span><span class="team-name">${m.b}</span> <span class="owner">${getOwner(m.b)}</span></span><strong>${m.scoreB===""?"-":m.scoreB}</strong></div>${m.finished?`<p class="winner">Resultado: ${m.winner} ${m.winner==="Empate"?"— 50 puntos acumulados al primer lugar":"— 50 puntos para el ganador"}</p>`:`<p class="small">Pendiente / en juego</p>`}${editable?`<input type="number" placeholder="Goles ${m.a}" value="${m.scoreA}" onchange="updateMatch('${m.id}','scoreA',this.value)"><input type="number" placeholder="Goles ${m.b}" value="${m.scoreB}" onchange="updateMatch('${m.id}','scoreB',this.value)"><button onclick="finishMatch('${m.id}')">Finalizar partido</button>${m.finished?`<button class="gray" onclick="reopenMatch('${m.id}')">Reabrir</button>`:""}${m.phase!=="Fase de grupos"?`<button class="danger" onclick="deleteMatch('${m.id}')">Eliminar</button>`:""}`:""}</div>`;}
+function getAllMatches(){
+  const groupMatches = data.matches || [];
+  const knockoutMatches = data.knockout && Array.isArray(data.knockout.matches) ? data.knockout.matches : [];
+  return [...groupMatches, ...knockoutMatches].filter(m => m && m.a && m.b);
+}
 function render(){
   document.getElementById("tiePool").textContent = data.tiePool || 0;
-  document.getElementById("finishedCount").textContent = (data.matches || []).filter(m=>m.finished).length;
+  document.getElementById("finishedCount").textContent = getAllMatches().filter(m=>m.finished).length;
   document.getElementById("assignedCount").textContent = Object.keys(data.teams || {}).length;
 
   document.getElementById("groupMatches").innerHTML = (() => {
@@ -106,7 +111,7 @@ function render(){
                   <h3>${g}</h3>
                   <span class="small">${GROUPS[g].join(" · ")}</span>
                 </div>
-                ${(data.matches || []).filter(m=>m.group===g).map(m=>matchHTML(m,false)).join("")}
+                ${getAllMatches().filter(m=>m.group===g).map(m=>matchHTML(m,false)).join("")}
               </div>
             `).join("")}
           </div>
@@ -121,7 +126,7 @@ function render(){
     rounds.map(r=>`
       <div class="round">
         <h3>${r}</h3>
-        ${(data.matches || []).filter(m=>m.phase===r).map(m=>matchHTML(m,false)).join("") || "<p class='small'>Sin partidos</p>"}
+        ${getAllMatches().filter(m=>m.phase===r).map(m=>matchHTML(m,false)).join("") || "<p class='small'>Sin partidos</p>"}
       </div>
     `).join("");
 

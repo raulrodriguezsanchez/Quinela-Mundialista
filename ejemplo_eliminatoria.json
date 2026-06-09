@@ -1,0 +1,13 @@
+{
+  "_ejemplo": "Así se llena un partido de eliminatoria cuando ya se conoce el cruce.",
+  "id": "DIECISEISAVOS-01",
+  "phase": "Dieciseisavos",
+  "group": "",
+  "a": "México",
+  "b": "Brasil",
+  "scoreA": 2,
+  "scoreB": 1,
+  "finished": true,
+  "winner": "México",
+  "paid": true
+}
