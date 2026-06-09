@@ -99,14 +99,38 @@
 <section id="participantes"><h2>Participantes y puntos acumulados</h2><table><thead><tr><th>Participante</th><th>Equipos</th><th>Juegos ganados</th><th>Puntos ganados</th></tr></thead><tbody id="participantsTable"></tbody></table></section>
 <section id="reglas"><div class="card"><h2>Reglas de la Quinela</h2><ul class="rules"><li>Juego ganado: <strong>50 puntos</strong>.</li><li>Juego empatado: <strong>50 puntos se acumulan al premio del primer lugar</strong>.</li><li>Primer lugar: <strong>3000 puntos + acumulado de empates</strong>.</li><li>Segundo lugar: <strong>2000 puntos</strong>.</li><li>Tercer lugar: <strong>1800 puntos</strong>.</li><li>Cada participante puede tener uno o más equipos.</li></ul></div><div class="totalBox"><div class="metric"><span>Acumulado por empates</span><br><strong id="tiePool">0</strong> pts</div><div class="metric"><span>Partidos finalizados</span><br><strong id="finishedCount">0</strong></div><div class="metric"><span>Equipos asignados</span><br><strong id="assignedCount">0</strong></div></div></section>
 
-<section id="admin"><h2>Administrador</h2><div id="loginBox" class="card"><input id="adminPass" type="password" placeholder="Contraseña de administrador"><button onclick="login()">Entrar</button></div><div id="adminPanel" style="display:none"><div class="grid"><div class="card"><h3>Registrar participante</h3><input id="personName" placeholder="Nombre de la persona"><button onclick="addPerson()">Agregar</button></div><div class="card"><h3>Asignar equipo</h3><select id="personSelect"></select><select id="teamSelect"></select><button onclick="assignTeam()">Asignar equipo</button></div><div class="card"><h3>Agregar partido de eliminatoria</h3><select id="matchPhase"><option>Dieciseisavos</option><option>Octavos</option><option>Cuartos</option><option>Semifinal</option><option>Tercer lugar</option><option>Final</option></select><select id="matchA"></select><select id="matchB"></select><button onclick="addKnockoutMatch()">Agregar partido</button></div></div><div class="card"><h3>Partidos registrados</h3><div id="adminMatches"></div></div><div class="card"><h3>Reiniciar datos</h3><button class="danger" onclick="resetAll()">Borrar participantes, asignaciones y resultados</button></div></div></section>
+<section id="admin"><h2>Administrador</h2><div id="loginBox" class="card"><input id="adminPass" type="password" placeholder="Contraseña de administrador"><button onclick="login()">Entrar</button></div><div id="adminPanel" style="display:none"><div class="grid"><div class="card"><h3>Registrar participante</h3><input id="personName" placeholder="Nombre de la persona"><button onclick="addPerson()">Agregar</button></div><div class="card"><h3>Asignar equipo</h3><select id="personSelect"></select><select id="teamSelect"></select><button onclick="assignTeam()">Asignar equipo</button></div><div class="card"><h3>Agregar partido de eliminatoria</h3><select id="matchPhase"><option>Dieciseisavos</option><option>Octavos</option><option>Cuartos</option><option>Semifinal</option><option>Tercer lugar</option><option>Final</option></select><select id="matchA"></select><select id="matchB"></select><button onclick="addKnockoutMatch()">Agregar partido</button></div></div><div class="card"><h3>Partidos registrados</h3><div id="adminMatches"></div></div><div class="card"><h3>Guardar cambios para todos</h3><p class="small">Esta versión usa un archivo <strong>data.json</strong>. Después de registrar participantes, asignar equipos o capturar resultados, descarga el JSON actualizado y reemplaza el archivo <strong>data.json</strong> en GitHub. Al publicarse de nuevo, todos verán los cambios.</p><button class="secondary" onclick="downloadDataJson()">Descargar data.json actualizado</button></div><div class="card"><h3>Reiniciar datos</h3><button class="danger" onclick="resetAll()">Borrar participantes, asignaciones y resultados</button></div></div></section>
 <script>
 const ADMIN_PASSWORD="mundialatencionmedica2026";
 const GROUPS={"Grupo A":["México","Sudáfrica","Corea del Sur","Chequia"],"Grupo B":["Canadá","Bosnia y Herzegovina","Qatar","Suiza"],"Grupo C":["Brasil","Marruecos","Haití","Escocia"],"Grupo D":["Estados Unidos","Paraguay","Australia","Türkiye"],"Grupo E":["Alemania","Curaçao","Costa de Marfil","Ecuador"],"Grupo F":["Países Bajos","Japón","Suecia","Túnez"],"Grupo G":["Bélgica","Egipto","Irán","Nueva Zelanda"],"Grupo H":["España","Cabo Verde","Arabia Saudita","Uruguay"],"Grupo I":["Francia","Senegal","Irak","Noruega"],"Grupo J":["Argentina","Argelia","Austria","Jordania"],"Grupo K":["Portugal","Uzbekistán","Colombia","RD Congo"],"Grupo L":["Inglaterra","Ghana","Panamá","Croacia"]};
 const ALL_TEAMS=Object.values(GROUPS).flat();
 function generateGroupMatches(){const matches=[];Object.entries(GROUPS).forEach(([group,teams])=>{for(let i=0;i<teams.length;i++){for(let j=i+1;j<teams.length;j++){matches.push({id:`${group}-${teams[i]}-${teams[j]}`,phase:"Fase de grupos",group,a:teams[i],b:teams[j],scoreA:"",scoreB:"",finished:false,winner:"",paid:false});}}});return matches;}
-let data=JSON.parse(localStorage.getItem("quinela2026_puntos"))||{people:[],teams:{},matches:generateGroupMatches(),tiePool:0};
-function save(){localStorage.setItem("quinela2026_puntos",JSON.stringify(data));render();}
+let data={people:[],teams:{},matches:generateGroupMatches(),tiePool:0};
+async function loadDataJson(){
+  try{
+    const response=await fetch("data.json?nocache="+Date.now());
+    if(!response.ok){throw new Error("No se encontró data.json");}
+    const cloudData=await response.json();
+    if(cloudData&&cloudData.matches){data=cloudData;}
+  }catch(error){
+    console.warn("Usando datos iniciales porque no se pudo cargar data.json:",error);
+  }
+  render();
+}
+function save(){localStorage.setItem("quinela2026_borrador_local",JSON.stringify(data));render();}
+function downloadDataJson(){
+  const json=JSON.stringify(data,null,2);
+  const blob=new Blob([json],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="data.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  alert("Se descargó data.json. Súbelo a GitHub reemplazando el archivo anterior para que todos vean los cambios.");
+}
 function showTab(id){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");render();}
 function login(){if(document.getElementById("adminPass").value===ADMIN_PASSWORD){document.getElementById("loginBox").style.display="none";document.getElementById("adminPanel").style.display="block";}else alert("Contraseña incorrecta");}
 function addPerson(){const name=document.getElementById("personName").value.trim();if(!name)return;if(!data.people.includes(name))data.people.push(name);document.getElementById("personName").value="";save();}
@@ -145,7 +169,7 @@ function render(){document.getElementById("tiePool").textContent=data.tiePool;do
 
   const rounds=["Dieciseisavos","Octavos","Cuartos","Semifinal","Tercer lugar","Final"];document.getElementById("bracketView").innerHTML=rounds.map(r=>`<div class="round"><h3>${r}</h3>${data.matches.filter(m=>m.phase===r).map(m=>matchHTML(m,false)).join("")||"<p class='small'>Sin partidos</p>"}</div>`).join("");document.getElementById("adminMatches").innerHTML=data.matches.map(m=>matchHTML(m,true)).join("");document.getElementById("participantsTable").innerHTML=data.people.map(p=>{const g=getPersonGain(p);return `<tr><td><strong>${p}</strong></td><td>${g.teams.join(", ")||"Sin equipos"}</td><td>${g.wins}</td><td><strong>${g.total.toLocaleString()} pts</strong></td></tr>`;}).join("")||`<tr><td colspan="4">No hay participantes registrados.</td></tr>`;}
 function resetAll(){if(!confirm("¿Seguro que deseas borrar todos los datos?"))return;data={people:[],teams:{},matches:generateGroupMatches(),tiePool:0};save();}
-render();
+loadDataJson();
 </script>
 </body>
 </html>
