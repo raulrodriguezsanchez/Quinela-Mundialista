@@ -47,6 +47,38 @@
   }
 }
 
+
+.group-columns{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(260px,1fr));
+  gap:16px;
+  align-items:start;
+}
+.group-column{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.group-card{
+  background:white;
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 3px 12px #00000012;
+}
+.group-card .group-title{
+  margin-top:0;
+}
+@media(max-width:1100px){
+  .group-columns{
+    grid-template-columns:repeat(2,minmax(260px,1fr));
+  }
+}
+@media(max-width:640px){
+  .group-columns{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -64,7 +96,7 @@
 
 <section id="grupos" class="active"><h2>Fase de grupos</h2><div id="groupMatches"></div></section>
 <section id="bracket"><h2>Eliminatorias</h2><div class="bracket" id="bracketView"></div></section>
-<section id="participantes"><h2>Participantes y puntos acumulados</h2><table><thead><tr><th>Persona</th><th>Equipos</th><th>Juegos ganados</th><th>Premios</th><th>Total</th></tr></thead><tbody id="participantsTable"></tbody></table></section>
+<section id="participantes"><h2>Participantes y puntos acumulados</h2><table><thead><tr><th>Participante</th><th>Equipos</th><th>Juegos ganados</th><th>Puntos ganados</th></tr></thead><tbody id="participantsTable"></tbody></table></section>
 <section id="reglas"><div class="card"><h2>Reglas de la Quinela</h2><ul class="rules"><li>Juego ganado: <strong>50 puntos</strong>.</li><li>Juego empatado: <strong>50 puntos se acumulan al premio del primer lugar</strong>.</li><li>Primer lugar: <strong>3000 puntos + acumulado de empates</strong>.</li><li>Segundo lugar: <strong>2000 puntos</strong>.</li><li>Tercer lugar: <strong>1800 puntos</strong>.</li><li>Cada participante puede tener uno o más equipos.</li></ul></div><div class="totalBox"><div class="metric"><span>Acumulado por empates</span><br><strong id="tiePool">0</strong> pts</div><div class="metric"><span>Partidos finalizados</span><br><strong id="finishedCount">0</strong></div><div class="metric"><span>Equipos asignados</span><br><strong id="assignedCount">0</strong></div></div></section>
 
 <section id="admin"><h2>Administrador</h2><div id="loginBox" class="card"><input id="adminPass" type="password" placeholder="Contraseña de administrador"><button onclick="login()">Entrar</button></div><div id="adminPanel" style="display:none"><div class="grid"><div class="card"><h3>Registrar participante</h3><input id="personName" placeholder="Nombre de la persona"><button onclick="addPerson()">Agregar</button></div><div class="card"><h3>Asignar equipo</h3><select id="personSelect"></select><select id="teamSelect"></select><button onclick="assignTeam()">Asignar equipo</button></div><div class="card"><h3>Agregar partido de eliminatoria</h3><select id="matchPhase"><option>Dieciseisavos</option><option>Octavos</option><option>Cuartos</option><option>Semifinal</option><option>Tercer lugar</option><option>Final</option></select><select id="matchA"></select><select id="matchB"></select><button onclick="addKnockoutMatch()">Agregar partido</button></div></div><div class="card"><h3>Partidos registrados</h3><div id="adminMatches"></div></div><div class="card"><h3>Reiniciar datos</h3><button class="danger" onclick="resetAll()">Borrar participantes, asignaciones y resultados</button></div></div></section>
@@ -88,7 +120,30 @@ function getOwner(team){return data.teams[team]||"Sin asignar";}
 function getTeamGain(team){let total=0,wins=0,prizes=0;data.matches.forEach(m=>{if(m.finished&&m.winner===team){total+=50;wins++;if(m.phase==="Final"){total+=3000+data.tiePool;prizes+=3000+data.tiePool;}if(m.phase==="Tercer lugar"){total+=1800;prizes+=1800;}}if(m.finished&&m.phase==="Final"&&m.winner!=="Empate"){const loser=m.winner===m.a?m.b:m.a;if(team===loser){total+=2000;prizes+=2000;}}});return{total,wins,prizes};}
 function getPersonGain(person){let total=0,wins=0,prizes=0;const teams=Object.keys(data.teams).filter(t=>data.teams[t]===person);teams.forEach(team=>{const g=getTeamGain(team);total+=g.total;wins+=g.wins;prizes+=g.prizes;});return{teams,total,wins,prizes};}
 function matchHTML(m,editable=false){return `<div class="match"><div class="small">${m.group?m.group+" · ":""}${m.phase}</div><div class="team"><span><span class="team-name">${m.a}</span> <span class="owner">${getOwner(m.a)}</span></span><strong>${m.scoreA===""?"-":m.scoreA}</strong></div><div class="team"><span><span class="team-name">${m.b}</span> <span class="owner">${getOwner(m.b)}</span></span><strong>${m.scoreB===""?"-":m.scoreB}</strong></div>${m.finished?`<p class="winner">Resultado: ${m.winner} ${m.winner==="Empate"?"— 50 puntos acumulados al primer lugar":"— 50 puntos para el ganador"}</p>`:`<p class="small">Pendiente / en juego</p>`}${editable?`<input type="number" placeholder="Goles ${m.a}" value="${m.scoreA}" onchange="updateMatch('${m.id}','scoreA',this.value)"><input type="number" placeholder="Goles ${m.b}" value="${m.scoreB}" onchange="updateMatch('${m.id}','scoreB',this.value)"><button onclick="finishMatch('${m.id}')">Finalizar partido</button>${m.finished?`<button class="gray" onclick="reopenMatch('${m.id}')">Reabrir</button>`:""}${m.phase!=="Fase de grupos"?`<button class="danger" onclick="deleteMatch('${m.id}')">Eliminar</button>`:""}`:""}</div>`;}
-function render(){document.getElementById("tiePool").textContent=data.tiePool;document.getElementById("finishedCount").textContent=data.matches.filter(m=>m.finished).length;document.getElementById("assignedCount").textContent=Object.keys(data.teams).length;document.getElementById("personSelect").innerHTML=data.people.map(p=>`<option>${p}</option>`).join("");document.getElementById("teamSelect").innerHTML=ALL_TEAMS.map(t=>{const label=data.teams[t]?`${t} — asignado a ${data.teams[t]}`:t;return `<option value="${t}">${label}</option>`;}).join("");document.getElementById("matchA").innerHTML=ALL_TEAMS.map(t=>`<option>${t}</option>`).join("");document.getElementById("matchB").innerHTML=ALL_TEAMS.map(t=>`<option>${t}</option>`).join("");document.getElementById("groupMatches").innerHTML=Object.keys(GROUPS).map(g=>`<div class="group-title"><h3>${g}</h3><span class="small">${GROUPS[g].join(" · ")}</span></div>${data.matches.filter(m=>m.group===g).map(m=>matchHTML(m,false)).join("")}`).join("");const rounds=["Dieciseisavos","Octavos","Cuartos","Semifinal","Tercer lugar","Final"];document.getElementById("bracketView").innerHTML=rounds.map(r=>`<div class="round"><h3>${r}</h3>${data.matches.filter(m=>m.phase===r).map(m=>matchHTML(m,false)).join("")||"<p class='small'>Sin partidos</p>"}</div>`).join("");document.getElementById("adminMatches").innerHTML=data.matches.map(m=>matchHTML(m,true)).join("");document.getElementById("participantsTable").innerHTML=data.people.map(p=>{const g=getPersonGain(p);return `<tr><td><strong>${p}</strong></td><td>${g.teams.join(", ")||"Sin equipos"}</td><td>${g.wins}</td><td>${g.prizes.toLocaleString()} pts</td><td><strong>${g.total.toLocaleString()} pts</strong></td></tr>`;}).join("")||`<tr><td colspan="4">No hay participantes registrados.</td></tr>`;}
+function render(){document.getElementById("tiePool").textContent=data.tiePool;document.getElementById("finishedCount").textContent=data.matches.filter(m=>m.finished).length;document.getElementById("assignedCount").textContent=Object.keys(data.teams).length;document.getElementById("personSelect").innerHTML=data.people.map(p=>`<option>${p}</option>`).join("");document.getElementById("teamSelect").innerHTML=ALL_TEAMS.map(t=>{const label=data.teams[t]?`${t} — asignado a ${data.teams[t]}`:t;return `<option value="${t}">${label}</option>`;}).join("");document.getElementById("matchA").innerHTML=ALL_TEAMS.map(t=>`<option>${t}</option>`).join("");document.getElementById("matchB").innerHTML=ALL_TEAMS.map(t=>`<option>${t}</option>`).join("");document.getElementById("groupMatches").innerHTML = (() => {
+    const groups = Object.keys(GROUPS);
+    const columns = [groups.slice(0,3), groups.slice(3,6), groups.slice(6,9), groups.slice(9,12)];
+
+    return `
+      <div class="group-columns">
+        ${columns.map(columnGroups => `
+          <div class="group-column">
+            ${columnGroups.map(g => `
+              <div class="group-card">
+                <div class="group-title">
+                  <h3>${g}</h3>
+                  <span class="small">${GROUPS[g].join(" · ")}</span>
+                </div>
+                ${data.matches.filter(m=>m.group===g).map(m=>matchHTML(m,false)).join("")}
+              </div>
+            `).join("")}
+          </div>
+        `).join("")}
+      </div>
+    `;
+  })();
+
+  const rounds=["Dieciseisavos","Octavos","Cuartos","Semifinal","Tercer lugar","Final"];document.getElementById("bracketView").innerHTML=rounds.map(r=>`<div class="round"><h3>${r}</h3>${data.matches.filter(m=>m.phase===r).map(m=>matchHTML(m,false)).join("")||"<p class='small'>Sin partidos</p>"}</div>`).join("");document.getElementById("adminMatches").innerHTML=data.matches.map(m=>matchHTML(m,true)).join("");document.getElementById("participantsTable").innerHTML=data.people.map(p=>{const g=getPersonGain(p);return `<tr><td><strong>${p}</strong></td><td>${g.teams.join(", ")||"Sin equipos"}</td><td>${g.wins}</td><td><strong>${g.total.toLocaleString()} pts</strong></td></tr>`;}).join("")||`<tr><td colspan="4">No hay participantes registrados.</td></tr>`;}
 function resetAll(){if(!confirm("¿Seguro que deseas borrar todos los datos?"))return;data={people:[],teams:{},matches:generateGroupMatches(),tiePool:0};save();}
 render();
 </script>
