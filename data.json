@@ -57,10 +57,10 @@
     "México": "Ramón",
     "Sudáfrica": "Fabiola G",
     "Corea del Sur": "Anguiano",
-    "Chequia": "",
-    "Canadá": "",
+    "Chequia": "Cynthia",
+    "Canadá": "Roberto",
     "Bosnia y Herzegovina": "Ulises",
-    "Qatar": "",
+    "Qatar": "Carlos",
     "Suiza": "",
     "Brasil": "",
     "Marruecos": "",
@@ -125,8 +125,8 @@
       "b": "Corea del Sur",
       "scoreA": "2",
       "scoreB": "2",
-      "finished": false,
-      "winner": "",
+      "finished": true,
+      "winner": "Empate",
       "paid": false
     },
     {
@@ -137,7 +137,7 @@
       "b": "Chequia",
       "scoreA": "4",
       "scoreB": "1",
-      "finished": false,
+      "finished": true,
       "winner": "",
       "paid": false
     },
@@ -147,10 +147,10 @@
       "group": "Grupo A",
       "a": "Sudáfrica",
       "b": "Corea del Sur",
-      "scoreA": "",
-      "scoreB": "",
-      "finished": false,
-      "winner": "",
+      "scoreA": "1",
+      "scoreB": "1",
+      "finished": true,
+      "winner": "Empate",
       "paid": false
     },
     {
