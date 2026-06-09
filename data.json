@@ -1,6 +1,19 @@
 {
-  "people": [],
-  "teams": {},
+  "_instrucciones": {
+    "people": "Agrega aquí los nombres de los participantes.",
+    "teams": "Asigna cada selección a un participante. Puedes dar varios equipos a la misma persona.",
+    "matches": "Aquí se capturan marcadores. Si un partido termina empatado, winner debe ser 'Empate'. Si hay ganador, winner debe ser exactamente el nombre del equipo ganador.",
+    "tiePool": "Suma 50 por cada partido empatado finalizado. Ese acumulado se agrega al primer lugar."
+  },
+  "people": [
+    "Ejemplo Participante 1",
+    "Ejemplo Participante 2"
+  ],
+  "teams": {
+    "México": "Ejemplo Participante 1",
+    "Argentina": "Ejemplo Participante 2"
+  },
+  "tiePool": 0,
   "matches": [
     {
       "id": "Grupo A-México-Sudáfrica",
@@ -866,6 +879,5 @@
       "winner": "",
       "paid": false
     }
-  ],
-  "tiePool": 0
+  ]
 }
