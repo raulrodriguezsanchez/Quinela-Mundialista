@@ -156,6 +156,11 @@ section.active {
   font-weight: 700;
 }
 
+.flag {
+  display: inline-block;
+  margin-right: 6px;
+}
+
 .team-name.pending {
   color: var(--muted);
   font-weight: 600;
@@ -277,6 +282,56 @@ const GROUPS = {
 };
 
 const ROUNDS = ["Dieciseisavos", "Octavos", "Cuartos", "Semifinal", "Tercer lugar", "Final"];
+const TEAM_FLAGS = {
+  "Alemania": "🇩🇪",
+  "Arabia Saudita": "🇸🇦",
+  "Argelia": "🇩🇿",
+  "Argentina": "🇦🇷",
+  "Australia": "🇦🇺",
+  "Austria": "🇦🇹",
+  "Bélgica": "🇧🇪",
+  "Bosnia y Herzegovina": "🇧🇦",
+  "Brasil": "🇧🇷",
+  "Cabo Verde": "🇨🇻",
+  "Canadá": "🇨🇦",
+  "Chequia": "🇨🇿",
+  "Colombia": "🇨🇴",
+  "Corea del Sur": "🇰🇷",
+  "Costa de Marfil": "🇨🇮",
+  "Croacia": "🇭🇷",
+  "Curaçao": "🇨🇼",
+  "Ecuador": "🇪🇨",
+  "Egipto": "🇪🇬",
+  "Escocia": "🏴",
+  "España": "🇪🇸",
+  "Estados Unidos": "🇺🇸",
+  "Francia": "🇫🇷",
+  "Ghana": "🇬🇭",
+  "Haití": "🇭🇹",
+  "Inglaterra": "🏴",
+  "Irak": "🇮🇶",
+  "Irán": "🇮🇷",
+  "Japón": "🇯🇵",
+  "Jordania": "🇯🇴",
+  "Marruecos": "🇲🇦",
+  "México": "🇲🇽",
+  "Noruega": "🇳🇴",
+  "Nueva Zelanda": "🇳🇿",
+  "Países Bajos": "🇳🇱",
+  "Panamá": "🇵🇦",
+  "Paraguay": "🇵🇾",
+  "Portugal": "🇵🇹",
+  "Qatar": "🇶🇦",
+  "RD Congo": "🇨🇩",
+  "Senegal": "🇸🇳",
+  "Sudáfrica": "🇿🇦",
+  "Suecia": "🇸🇪",
+  "Suiza": "🇨🇭",
+  "Túnez": "🇹🇳",
+  "Türkiye": "🇹🇷",
+  "Uruguay": "🇺🇾",
+  "Uzbekistán": "🇺🇿"
+};
 
 let data = {
   people: [],
@@ -442,7 +497,17 @@ function teamHTML(team, placeholder) {
   const pendingClass = team ? "" : " pending";
   const owner = team ? ` <span class="owner">${getOwner(team)}</span>` : "";
 
-  return `<span><span class="team-name${pendingClass}">${label}</span>${owner}</span>`;
+  return `<span><span class="team-name${pendingClass}">${formatTeamName(label)}</span>${owner}</span>`;
+}
+
+function formatTeamName(team) {
+  const flag = TEAM_FLAGS[team];
+
+  return flag ? `<span class="flag">${flag}</span>${team}` : team;
+}
+
+function formatTeamList(teams) {
+  return teams.map(formatTeamName).join(", ");
 }
 
 function matchHTML(match) {
@@ -511,7 +576,7 @@ function renderParticipants() {
     return `
       <tr>
         <td><strong>${participantName}</strong></td>
-        <td>${gain.teams.join(", ") || "Sin equipos"}</td>
+        <td>${gain.teams.length ? formatTeamList(gain.teams) : "Sin equipos"}</td>
         <td>${gain.wins}</td>
         <td><strong>${gain.total.toLocaleString()} pts</strong></td>
       </tr>
