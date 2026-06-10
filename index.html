@@ -201,60 +201,18 @@ th {
 
 .bracket {
   display: grid;
-  grid-template-columns: repeat(6, minmax(240px, 1fr));
-  gap: 30px;
-  align-items: stretch;
+  grid-template-columns: repeat(6, minmax(230px, 1fr));
+  gap: 14px;
   overflow-x: auto;
   padding-bottom: 12px;
 }
 
 .round {
-  min-width: 240px;
+  min-width: 230px;
 }
 
 .round h3 {
-  position: sticky;
-  top: 54px;
-  z-index: 2;
-  margin: 0 0 12px;
-  padding: 8px 0;
-  background: var(--bg);
-}
-
-.round-matches {
-  display: grid;
-  grid-template-rows: repeat(32, minmax(22px, auto));
-  min-height: 2200px;
-}
-
-.bracket-slot {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.bracket-slot::after {
-  content: "";
-  position: absolute;
-  right: -30px;
-  top: 50%;
-  width: 30px;
-  border-top: 2px solid #bae6fd;
-}
-
-.round-tercer-lugar .bracket-slot::after,
-.round-final .bracket-slot::after {
-  display: none;
-}
-
-.bracket-slot .match {
-  position: relative;
-  width: 100%;
-  z-index: 1;
-}
-
-.bracket-slot {
-  grid-row: var(--row-start) / span var(--row-span);
+  margin-top: 0;
 }
 
 .totalBox {
@@ -284,12 +242,7 @@ th {
   }
 
   .bracket {
-    gap: 18px;
-  }
-
-  .bracket-slot::after {
-    right: -18px;
-    width: 18px;
+    grid-template-columns: repeat(6, minmax(230px, 1fr));
   }
 }
 </style>
@@ -324,14 +277,6 @@ const GROUPS = {
 };
 
 const ROUNDS = ["Dieciseisavos", "Octavos", "Cuartos", "Semifinal", "Tercer lugar", "Final"];
-const ROUND_CLASSES = {
-  Dieciseisavos: "round-dieciseisavos",
-  Octavos: "round-octavos",
-  Cuartos: "round-cuartos",
-  Semifinal: "round-semifinal",
-  "Tercer lugar": "round-tercer-lugar",
-  Final: "round-final"
-};
 
 let data = {
   people: [],
@@ -549,34 +494,11 @@ function renderGroups(allMatches) {
   `;
 }
 
-function getBracketSlotStyle(round, index) {
-  const positions = {
-    Dieciseisavos: { start: 1 + index * 2, span: 2 },
-    Octavos: { start: 2 + index * 4, span: 3 },
-    Cuartos: { start: 4 + index * 8, span: 4 },
-    Semifinal: { start: 8 + index * 16, span: 5 },
-    "Tercer lugar": { start: 22, span: 5 },
-    Final: { start: 13, span: 6 }
-  };
-  const position = positions[round] || { start: 1 + index * 2, span: 2 };
-
-  return `--row-start:${position.start};--row-span:${position.span}`;
-}
-
 function renderBracket(allMatches) {
   return ROUNDS.map(round => `
-    <div class="round ${ROUND_CLASSES[round]}">
+    <div class="round">
       <h3>${round}</h3>
-      <div class="round-matches">
-        ${allMatches
-          .filter(match => match.phase === round)
-          .sort(bySchedule)
-          .map((match, index) => `
-            <div class="bracket-slot" style="${getBracketSlotStyle(round, index)}">
-              ${matchHTML(match)}
-            </div>
-          `).join("") || "<p class='small'>Sin partidos</p>"}
-      </div>
+      ${allMatches.filter(match => match.phase === round).sort(bySchedule).map(matchHTML).join("") || "<p class='small'>Sin partidos</p>"}
     </div>
   `).join("");
 }
