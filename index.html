@@ -278,6 +278,7 @@ const GROUPS = {
 };
 
 const ROUNDS = ["Dieciseisavos", "Octavos", "Cuartos", "Semifinal", "Tercer lugar", "Final"];
+const KNOCKOUT_START_DATE = "2026-06-28";
 const TEAM_FLAGS = {
   "Alemania": "🇩🇪",
   "Arabia Saudita": "🇸🇦",
@@ -347,6 +348,7 @@ async function loadDataJson() {
     console.warn("Usando datos iniciales porque no se pudo cargar data.json:", error);
   }
 
+  setActiveTab(getInitialTabId());
   render();
 }
 
@@ -375,12 +377,20 @@ function generateGroupMatches() {
   return matches;
 }
 
-function showTab(id) {
+function getInitialTabId() {
+  return getTodayISO() >= KNOCKOUT_START_DATE ? "bracket" : "grupos";
+}
+
+function setActiveTab(id) {
   document.querySelectorAll("section").forEach(section => {
     section.classList.remove("active");
   });
 
   document.getElementById(id).classList.add("active");
+}
+
+function showTab(id) {
+  setActiveTab(id);
   render();
 }
 
