@@ -125,6 +125,12 @@ section.active {
   background: white;
 }
 
+.match.today {
+  border-color: #7dd3fc;
+  background: #ecfeff;
+  box-shadow: 0 0 0 1px #cffafe inset;
+}
+
 .match-meta {
   display: flex;
   flex-direction: column;
@@ -401,6 +407,19 @@ function formatMatchDate(match) {
   return `${pretty} ${year} · ${match.time} ${match.timezone || ""}`;
 }
 
+function getTodayISO() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function isTodayMatch(match) {
+  return match.date === getTodayISO();
+}
+
 function getMatchTimestamp(match) {
   return `${match.date || "9999-12-31"}T${match.time || "99:99"}`;
 }
@@ -423,6 +442,7 @@ function matchHTML(match) {
     match.group || match.phase,
     match.matchNo ? `Partido ${match.matchNo}` : ""
   ].filter(Boolean).join(" · ");
+  const todayClass = isTodayMatch(match) ? " today" : "";
   const scoreA = match.scoreA === "" ? "-" : match.scoreA;
   const scoreB = match.scoreB === "" ? "-" : match.scoreB;
   const status = match.finished
@@ -430,7 +450,7 @@ function matchHTML(match) {
     : `<p class="small">Pendiente / en juego</p>`;
 
   return `
-    <div class="match">
+    <div class="match${todayClass}">
       <div class="small">${meta}</div>
       <div class="team">${teamHTML(match.a, match.placeholderA)}<strong>${scoreA}</strong></div>
       <div class="team">${teamHTML(match.b, match.placeholderB)}<strong>${scoreB}</strong></div>
