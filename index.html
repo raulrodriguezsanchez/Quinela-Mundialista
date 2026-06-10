@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-:root{--primary:#0f766e;--dark:#0f172a;--muted:#64748b;--bg:#f4f7f8;--card:#fff;--line:#e2e8f0}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--dark)}header{background:linear-gradient(120deg,#0f766e,#164e63);color:white;padding:24px;text-align:center}header h1{margin:0 0 6px;font-size:28px}header p{margin:0;color:#d1fae5}nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;background:white;padding:10px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}button{border:0;border-radius:9px;padding:9px 13px;cursor:pointer;background:var(--primary);color:white;font-weight:600}button.secondary{background:#334155}button.danger{background:#b91c1c}button.gray{background:#64748b}section{display:none;padding:18px;max-width:1300px;margin:auto}section.active{display:block}.card{background:var(--card);border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 3px 12px #00000012}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}input,select{padding:9px;border:1px solid #cbd5e1;border-radius:8px;width:100%;margin:5px 0;background:white}.group-title{display:flex;align-items:center;justify-content:space-between;margin-top:20px;gap:12px;flex-wrap:wrap}.match{border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0;background:white}.team{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:7px 0}.team-name{font-weight:700}.owner{background:#ccfbf1;color:#115e59;border-radius:999px;padding:3px 8px;font-size:12px}.small{font-size:13px;color:var(--muted)}.winner{font-weight:bold;color:#0f766e}table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#ecfeff}.bracket{display:grid;grid-template-columns:repeat(5,minmax(230px,1fr));gap:14px;overflow-x:auto;padding-bottom:12px}.round{min-width:230px}.totalBox{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.metric{background:white;border-radius:16px;padding:14px;box-shadow:0 3px 12px #00000012}.metric strong{font-size:24px;color:var(--primary)}.rules li{margin:6px 0}
+:root{--primary:#0f766e;--dark:#0f172a;--muted:#64748b;--bg:#f4f7f8;--card:#fff;--line:#e2e8f0}*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--dark)}header{background:linear-gradient(120deg,#0f766e,#164e63);color:white;padding:24px;text-align:center}header h1{margin:0 0 6px;font-size:28px}header p{margin:0;color:#d1fae5}nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;background:white;padding:10px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #0001}button{border:0;border-radius:9px;padding:9px 13px;cursor:pointer;background:var(--primary);color:white;font-weight:600}button.secondary{background:#334155}button.danger{background:#b91c1c}button.gray{background:#64748b}section{display:none;padding:18px;max-width:1300px;margin:auto}section.active{display:block}.card{background:var(--card);border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 3px 12px #00000012}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}input,select{padding:9px;border:1px solid #cbd5e1;border-radius:8px;width:100%;margin:5px 0;background:white}.group-title{display:flex;align-items:center;justify-content:space-between;margin-top:20px;gap:12px;flex-wrap:wrap}.match{border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0;background:white}.match-meta{display:flex;flex-direction:column;gap:3px;margin-bottom:10px}.date-line{color:#0f766e;font-weight:700}.team{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:7px 0}.team-name{font-weight:700}.team-name.pending{color:var(--muted);font-weight:600}.owner{background:#ccfbf1;color:#115e59;border-radius:999px;padding:3px 8px;font-size:12px}.small{font-size:13px;color:var(--muted)}.winner{font-weight:bold;color:#0f766e}table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#ecfeff}.bracket{display:grid;grid-template-columns:repeat(6,minmax(230px,1fr));gap:14px;overflow-x:auto;padding-bottom:12px}.round{min-width:230px}.totalBox{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.metric{background:white;border-radius:16px;padding:14px;box-shadow:0 3px 12px #00000012}.metric strong{font-size:24px;color:var(--primary)}.rules li{margin:6px 0}
 
 
 
@@ -56,12 +56,16 @@
 <section id="bracket"><h2>Eliminatorias</h2><div class="bracket" id="bracketView"></div></section>
 <section id="participantes"><h2>Participantes y puntos acumulados</h2><table><thead><tr><th>Participante</th><th>Equipos</th><th>Juegos ganados</th><th>Puntos ganados</th></tr></thead><tbody id="participantsTable"></tbody></table></section>
 <section id="reglas"><div class="card"><h2>Reglas de la Quinela</h2><ul class="rules"><li>Juego ganado: <strong>50 puntos</strong>.</li><li>Juego empatado: <strong>50 puntos se acumulan al premio del primer lugar</strong>.</li><li>Primer lugar: <strong>3000 puntos + acumulado de empates</strong>.</li><li>Segundo lugar: <strong>2000 puntos</strong>.</li><li>Tercer lugar: <strong>1800 puntos</strong>.</li><li>Cada participante puede tener uno o más equipos.</li></ul></div><div class="totalBox"><div class="metric"><span>Acumulado por empates</span><br><strong id="tiePool">0</strong> pts</div><div class="metric"><span>Partidos finalizados</span><br><strong id="finishedCount">0</strong></div><div class="metric"><span>Equipos asignados</span><br><strong id="assignedCount">0</strong></div></div></section>
+<script src="schedule-fallback.js"></script>
 <script>
 const ADMIN_PASSWORD="mundialatencionmedica2026";
 const GROUPS={"Grupo A":["México","Sudáfrica","Corea del Sur","Chequia"],"Grupo B":["Canadá","Bosnia y Herzegovina","Qatar","Suiza"],"Grupo C":["Brasil","Marruecos","Haití","Escocia"],"Grupo D":["Estados Unidos","Paraguay","Australia","Türkiye"],"Grupo E":["Alemania","Curaçao","Costa de Marfil","Ecuador"],"Grupo F":["Países Bajos","Japón","Suecia","Túnez"],"Grupo G":["Bélgica","Egipto","Irán","Nueva Zelanda"],"Grupo H":["España","Cabo Verde","Arabia Saudita","Uruguay"],"Grupo I":["Francia","Senegal","Irak","Noruega"],"Grupo J":["Argentina","Argelia","Austria","Jordania"],"Grupo K":["Portugal","Uzbekistán","Colombia","RD Congo"],"Grupo L":["Inglaterra","Ghana","Panamá","Croacia"]};
 const ALL_TEAMS=Object.values(GROUPS).flat();
-function generateGroupMatches(){const matches=[];Object.entries(GROUPS).forEach(([group,teams])=>{for(let i=0;i<teams.length;i++){for(let j=i+1;j<teams.length;j++){matches.push({id:`${group}-${teams[i]}-${teams[j]}`,phase:"Fase de grupos",group,a:teams[i],b:teams[j],scoreA:"",scoreB:"",finished:false,winner:"",paid:false});}}});return matches;}
-let data={people:[],teams:{},matches:generateGroupMatches(),tiePool:0};
+const FALLBACK_SCHEDULE=window.QUINELA_FALLBACK_SCHEDULE||{groupSchedule:{},knockoutMatches:[]};
+function addSchedule(match){return {...match,...(FALLBACK_SCHEDULE.groupSchedule[match.id]||{})};}
+function generateGroupMatches(){const matches=[];Object.entries(GROUPS).forEach(([group,teams])=>{for(let i=0;i<teams.length;i++){for(let j=i+1;j<teams.length;j++){matches.push(addSchedule({id:`${group}-${teams[i]}-${teams[j]}`,phase:"Fase de grupos",group,a:teams[i],b:teams[j],scoreA:"",scoreB:"",finished:false,winner:"",paid:false}));}}});return matches;}
+function generateKnockoutMatches(){return FALLBACK_SCHEDULE.knockoutMatches.map(m=>({...m}));}
+let data={people:[],teams:{},matches:generateGroupMatches(),knockout:{matches:generateKnockoutMatches()},tiePool:0};
 async function loadDataJson(){
   try{
     const response=await fetch("data.json?nocache="+Date.now());
@@ -86,11 +90,15 @@ function deleteMatch(id){const m=data.matches.find(x=>x.id==id);if(!m)return;if(
 function getOwner(team){return data.teams[team]||"Sin asignar";}
 function getTeamGain(team){let total=0,wins=0,prizes=0;getAllMatches().forEach(m=>{if(m.finished&&m.winner===team){total+=50;wins++;if(m.phase==="Final"){total+=3000+getTiePool();prizes+=3000+getTiePool();}if(m.phase==="Tercer lugar"){total+=1800;prizes+=1800;}}if(m.finished&&m.phase==="Final"&&m.winner!=="Empate"){const loser=m.winner===m.a?m.b:m.a;if(team===loser){total+=2000;prizes+=2000;}}});return{total,wins,prizes};}
 function getPersonGain(person){let total=0,wins=0,prizes=0;const teams=Object.keys(data.teams).filter(t=>data.teams[t]===person);teams.forEach(team=>{const g=getTeamGain(team);total+=g.total;wins+=g.wins;prizes+=g.prizes;});return{teams,total,wins,prizes};}
-function matchHTML(m,editable=false){return `<div class="match"><div class="small">${m.group?m.group+" · ":""}${m.phase}</div><div class="team"><span><span class="team-name">${m.a}</span> <span class="owner">${getOwner(m.a)}</span></span><strong>${m.scoreA===""?"-":m.scoreA}</strong></div><div class="team"><span><span class="team-name">${m.b}</span> <span class="owner">${getOwner(m.b)}</span></span><strong>${m.scoreB===""?"-":m.scoreB}</strong></div>${m.finished?`<p class="winner">Resultado: ${m.winner} ${m.winner==="Empate"?"— 50 puntos acumulados al primer lugar":"— 50 puntos para el ganador"}</p>`:`<p class="small">Pendiente / en juego</p>`}${editable?`<input type="number" placeholder="Goles ${m.a}" value="${m.scoreA}" onchange="updateMatch('${m.id}','scoreA',this.value)"><input type="number" placeholder="Goles ${m.b}" value="${m.scoreB}" onchange="updateMatch('${m.id}','scoreB',this.value)"><button onclick="finishMatch('${m.id}')">Finalizar partido</button>${m.finished?`<button class="gray" onclick="reopenMatch('${m.id}')">Reabrir</button>`:""}${m.phase!=="Fase de grupos"?`<button class="danger" onclick="deleteMatch('${m.id}')">Eliminar</button>`:""}`:""}</div>`;}
+function formatMatchDate(m){if(!m.date||!m.time)return "";const [year,month,day]=m.date.split("-");const date=new Date(Number(year),Number(month)-1,Number(day));const pretty=date.toLocaleDateString("es-MX",{weekday:"short",day:"numeric",month:"short"}).replace(".","");return `${pretty} ${year} · ${m.time} ${m.timezone||""}`;}
+function getMatchTimestamp(m){return `${m.date||"9999-12-31"}T${m.time||"99:99"}`;}
+function bySchedule(a,b){return getMatchTimestamp(a).localeCompare(getMatchTimestamp(b))||String(a.id).localeCompare(String(b.id));}
+function teamHTML(team,placeholder){const label=team||placeholder||"Por definir";const pending=!team;return `<span><span class="team-name${pending?" pending":""}">${label}</span>${team?` <span class="owner">${getOwner(team)}</span>`:""}</span>`;}
+function matchHTML(m,editable=false){const meta=[m.group?m.group:m.phase,m.matchNo?`Partido ${m.matchNo}`:""].filter(Boolean).join(" · ");return `<div class="match"><div class="match-meta"><div class="small">${meta}</div>${formatMatchDate(m)?`<div class="small date-line">${formatMatchDate(m)}</div>`:""}${m.venue?`<div class="small">${m.venue}</div>`:""}</div><div class="team">${teamHTML(m.a,m.placeholderA)}<strong>${m.scoreA===""?"-":m.scoreA}</strong></div><div class="team">${teamHTML(m.b,m.placeholderB)}<strong>${m.scoreB===""?"-":m.scoreB}</strong></div>${m.finished?`<p class="winner">Resultado: ${m.winner} ${m.winner==="Empate"?"— 50 puntos acumulados al primer lugar":"— 50 puntos para el ganador"}</p>`:`<p class="small">Pendiente / en juego</p>`}${editable?`<input type="number" placeholder="Goles ${m.a||m.placeholderA}" value="${m.scoreA}" onchange="updateMatch('${m.id}','scoreA',this.value)"><input type="number" placeholder="Goles ${m.b||m.placeholderB}" value="${m.scoreB}" onchange="updateMatch('${m.id}','scoreB',this.value)"><button onclick="finishMatch('${m.id}')">Finalizar partido</button>${m.finished?`<button class="gray" onclick="reopenMatch('${m.id}')">Reabrir</button>`:""}${m.phase!=="Fase de grupos"?`<button class="danger" onclick="deleteMatch('${m.id}')">Eliminar</button>`:""}`:""}</div>`;}
 function getAllMatches(){
   const groupMatches = data.matches || [];
   const knockoutMatches = data.knockout && Array.isArray(data.knockout.matches) ? data.knockout.matches : [];
-  return [...groupMatches, ...knockoutMatches].filter(m => m && m.a && m.b);
+  return [...groupMatches, ...knockoutMatches].filter(m => m && m.id);
 }
 
 function getTiePool(){
@@ -119,7 +127,7 @@ function render(){
                   <h3>${g}</h3>
                   <span class="small">${GROUPS[g].join(" · ")}</span>
                 </div>
-                ${getAllMatches().filter(m=>m.group===g).map(m=>matchHTML(m,false)).join("")}
+                ${getAllMatches().filter(m=>m.group===g).sort(bySchedule).map(m=>matchHTML(m,false)).join("")}
               </div>
             `).join("")}
           </div>
@@ -134,7 +142,7 @@ function render(){
     rounds.map(r=>`
       <div class="round">
         <h3>${r}</h3>
-        ${getAllMatches().filter(m=>m.phase===r).map(m=>matchHTML(m,false)).join("") || "<p class='small'>Sin partidos</p>"}
+        ${getAllMatches().filter(m=>m.phase===r).sort(bySchedule).map(m=>matchHTML(m,false)).join("") || "<p class='small'>Sin partidos</p>"}
       </div>
     `).join("");
 
@@ -152,7 +160,7 @@ function render(){
     }).join("") || `<tr><td colspan="4">No hay participantes registrados.</td></tr>`;
 }
 
-function resetAll(){if(!confirm("¿Seguro que deseas borrar todos los datos?"))return;data={people:[],teams:{},matches:generateGroupMatches(),tiePool:0};save();}
+function resetAll(){if(!confirm("¿Seguro que deseas borrar todos los datos?"))return;data={people:[],teams:{},matches:generateGroupMatches(),knockout:{matches:generateKnockoutMatches()},tiePool:0};save();}
 loadDataJson();
 </script>
 </body>
