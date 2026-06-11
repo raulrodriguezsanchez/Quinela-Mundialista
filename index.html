@@ -65,6 +65,16 @@ button {
   font-weight: 600;
 }
 
+button.highlight {
+  background: #facc15;
+  color: #422006;
+}
+
+button.day-highlight {
+  background: #dc2626;
+  color: white;
+}
+
 section {
   display: none;
   max-width: 1300px;
@@ -88,6 +98,25 @@ section.active {
   border-radius: 16px;
   padding: 16px;
   margin: 12px 0;
+}
+
+.team-filter,
+.day-filter {
+  display: grid;
+  grid-template-columns: minmax(240px, 420px);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.team-filter select,
+.day-filter input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px;
+  background: white;
+  color: var(--dark);
+  font: inherit;
 }
 
 .group-columns {
@@ -251,12 +280,34 @@ th {
 <body>
 <header><h1>Quinela Mundial 2026</h1><p>Seguimiento</p></header>
 <nav>
+  <button class="highlight" onclick="showTab('filtrar')">Filtrar mi equipo</button>
+  <button class="day-highlight" onclick="showTab('dia')">Juegos del día</button>
   <button onclick="showTab('grupos')">Fase de grupos</button>
   <button onclick="showTab('bracket')">Eliminatorias</button>
   <button onclick="showTab('participantes')">Tablero de participantes</button>
   <button onclick="showTab('reglas')">Reglas</button>
 </nav>
 
+<section id="filtrar">
+  <h2>Filtrar mi equipo</h2>
+  <div class="card">
+    <label class="small" for="teamFilterSelect">Equipo y participante</label>
+    <div class="team-filter">
+      <select id="teamFilterSelect" onchange="handleTeamFilterChange(this.value)"></select>
+    </div>
+    <div id="teamFilterResults"></div>
+  </div>
+</section>
+<section id="dia">
+  <h2>Juegos del día</h2>
+  <div class="card">
+    <label class="small" for="dayFilterInput">Selecciona el día</label>
+    <div class="day-filter">
+      <input id="dayFilterInput" type="date" onchange="handleDayFilterChange(this.value)">
+    </div>
+    <div id="dayFilterResults"></div>
+  </div>
+</section>
 <section id="grupos" class="active"><h2>Fase de grupos</h2><div id="groupMatches"></div></section>
 <section id="bracket"><h2>Eliminatorias</h2><div class="bracket" id="bracketView"></div></section>
 <section id="participantes"><h2>Participantes y puntos acumulados</h2><table><thead><tr><th>Participante</th><th>Equipo</th><th>Juegos ganados</th><th>Puntos ganados</th></tr></thead><tbody id="participantsTable"></tbody></table></section>
@@ -336,6 +387,8 @@ let data = {
   matches: generateGroupMatches(),
   tiePool: 0
 };
+let selectedTeamFilter = "";
+let selectedDayFilter = "";
 
 async function loadDataJson() {
   try {
@@ -391,6 +444,16 @@ function setActiveTab(id) {
 
 function showTab(id) {
   setActiveTab(id);
+  render();
+}
+
+function handleTeamFilterChange(team) {
+  selectedTeamFilter = team;
+  render();
+}
+
+function handleDayFilterChange(date) {
+  selectedDayFilter = date;
   render();
 }
 
@@ -516,6 +579,17 @@ function formatTeamList(teams) {
   return teams.map(formatTeamName).join(", ");
 }
 
+function getTeamFilterOptions() {
+  return Object.values(GROUPS).flat();
+}
+
+function formatTeamOptionText(team) {
+  const flag = TEAM_FLAGS[team] ? `${TEAM_FLAGS[team]} ` : "";
+  const owner = getOwner(team);
+
+  return `${flag}${team} — ${owner}`;
+}
+
 function matchHTML(match) {
   const meta = [
     match.group || match.phase,
@@ -569,6 +643,54 @@ function renderBracket(allMatches) {
   `).join("");
 }
 
+function renderTeamFilter(allMatches) {
+  const teams = getTeamFilterOptions();
+  const selectedTeam = selectedTeamFilter;
+  const selectedMatches = allMatches
+    .filter(match => match.a === selectedTeam || match.b === selectedTeam)
+    .sort(bySchedule);
+
+  document.getElementById("teamFilterSelect").innerHTML = `
+    <option value="" ${selectedTeam ? "" : "selected"}>Seleccione</option>
+    ${teams.map(team => `
+      <option value="${team}" ${team === selectedTeam ? "selected" : ""}>${formatTeamOptionText(team)}</option>
+    `).join("")}
+  `;
+
+  document.getElementById("teamFilterResults").innerHTML = `
+    ${selectedTeam ? `<h3>${formatTeamName(selectedTeam)}</h3>` : ""}
+    ${selectedTeam ? selectedMatches.map(matchHTML).join("") || `<p class="small">No hay juegos registrados para este equipo.</p>` : ""}
+  `;
+}
+
+function renderDayFilter(allMatches) {
+  const selectedDate = selectedDayFilter || getTodayISO();
+  selectedDayFilter = selectedDate;
+  const dayMatches = allMatches
+    .filter(match => match.date === selectedDate)
+    .sort(bySchedule);
+
+  document.getElementById("dayFilterInput").value = selectedDate;
+  document.getElementById("dayFilterResults").innerHTML = `
+    <h3>${formatDateTitle(selectedDate)}</h3>
+    ${dayMatches.map(matchHTML).join("") || `<p class="small">No hay juegos registrados para este día.</p>`}
+  `;
+}
+
+function formatDateTitle(dateText) {
+  if (!dateText) return "";
+
+  const [year, month, day] = dateText.split("-");
+  const date = new Date(Number(year), Number(month) - 1, Number(day));
+
+  return date.toLocaleDateString("es-MX", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+
 function renderParticipants() {
   return (data.people || []).map(person => {
     const participantName = typeof person === "string" ? person : person.name;
@@ -591,6 +713,8 @@ function render() {
   document.getElementById("tiePool").textContent = getTiePool();
   document.getElementById("finishedCount").textContent = allMatches.filter(match => match.finished).length;
   document.getElementById("assignedCount").textContent = Object.values(data.teams || {}).filter(Boolean).length;
+  renderTeamFilter(allMatches);
+  renderDayFilter(allMatches);
   document.getElementById("groupMatches").innerHTML = renderGroups(allMatches);
   document.getElementById("bracketView").innerHTML = renderBracket(allMatches);
   document.getElementById("participantsTable").innerHTML = renderParticipants();
