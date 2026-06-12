@@ -82,39 +82,47 @@ button.day-highlight {
   z-index: 100;
   overflow: hidden;
   pointer-events: none;
-  background: linear-gradient(180deg, #ecfeffcc, #f4f7f800 62%);
-  animation: introFade 3.8s ease forwards;
+  background: linear-gradient(180deg, #ecfeffcc, #f4f7f800 68%);
+  animation: introFade 7s ease forwards;
 }
 
 .intro-ball {
   position: absolute;
   left: var(--start-x);
-  bottom: -80px;
+  bottom: 24px;
   font-size: var(--size);
   filter: drop-shadow(0 10px 10px #0003);
   animation:
-    ballTravel var(--duration) cubic-bezier(.22, .8, .2, 1) forwards,
-    ballBounce .62s ease-in-out infinite alternate,
-    ballSpin .8s linear infinite;
+    ballBouncePath var(--duration) ease-out forwards,
+    ballDrift var(--duration) ease-in-out forwards,
+    ballSlowSpin 2.6s linear infinite;
   animation-delay: var(--delay), var(--delay), var(--delay);
 }
 
 @keyframes introFade {
-  0%, 72% { opacity: 1; }
+  0%, 82% { opacity: 1; }
   100% { opacity: 0; visibility: hidden; }
 }
 
-@keyframes ballTravel {
-  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  100% { transform: translate3d(var(--move-x), -115vh, 0) rotate(720deg); }
+@keyframes ballBouncePath {
+  0% { transform: translateY(-118vh) scale(1); opacity: 0; }
+  8% { opacity: 1; }
+  30% { transform: translateY(0) scale(1.04, .96); }
+  43% { transform: translateY(-38vh) scale(.98, 1.02); }
+  56% { transform: translateY(0) scale(1.03, .97); }
+  68% { transform: translateY(-20vh) scale(.99, 1.01); }
+  80% { transform: translateY(0) scale(1.02, .98); }
+  89% { transform: translateY(-8vh) scale(1); }
+  97% { transform: translateY(0) scale(1.01, .99); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 0; }
 }
 
-@keyframes ballBounce {
-  from { margin-bottom: 0; }
-  to { margin-bottom: 72px; }
+@keyframes ballDrift {
+  from { margin-left: 0; }
+  to { margin-left: var(--move-x); }
 }
 
-@keyframes ballSpin {
+@keyframes ballSlowSpin {
   to { rotate: 360deg; }
 }
 
@@ -781,13 +789,13 @@ function playIntroAnimation() {
   layer.setAttribute("aria-hidden", "true");
 
   [
-    ["8%", "28vw", "42px", "0s", "3.1s"],
-    ["18%", "-18vw", "34px", ".22s", "3.4s"],
-    ["34%", "22vw", "48px", ".06s", "3.6s"],
-    ["50%", "-24vw", "40px", ".34s", "3.2s"],
-    ["66%", "18vw", "52px", ".15s", "3.5s"],
-    ["80%", "-16vw", "36px", ".42s", "3.25s"],
-    ["92%", "-30vw", "46px", ".08s", "3.7s"]
+    ["8%", "10vw", "42px", "0s", "5.8s"],
+    ["20%", "-8vw", "34px", ".35s", "6.2s"],
+    ["34%", "7vw", "48px", ".15s", "6.5s"],
+    ["50%", "-10vw", "40px", ".55s", "5.9s"],
+    ["66%", "9vw", "52px", ".25s", "6.4s"],
+    ["80%", "-7vw", "36px", ".7s", "6.1s"],
+    ["92%", "-12vw", "46px", ".1s", "6.7s"]
   ].forEach(([startX, moveX, size, delay, duration]) => {
     const ball = document.createElement("span");
     ball.className = "intro-ball";
@@ -801,7 +809,7 @@ function playIntroAnimation() {
   });
 
   document.body.appendChild(layer);
-  window.setTimeout(() => layer.remove(), 4200);
+  window.setTimeout(() => layer.remove(), 7400);
 }
 
 loadDataJson();
