@@ -329,7 +329,6 @@ const GROUPS = {
 };
 
 const ROUNDS = ["Dieciseisavos", "Octavos", "Cuartos", "Semifinal", "Tercer lugar", "Final"];
-const KNOCKOUT_START_DATE = "2026-06-28";
 const TEAM_FLAGS = {
   "Alemania": "🇩🇪",
   "Arabia Saudita": "🇸🇦",
@@ -431,7 +430,7 @@ function generateGroupMatches() {
 }
 
 function getInitialTabId() {
-  return getTodayISO() >= KNOCKOUT_START_DATE ? "bracket" : "grupos";
+  return "participantes";
 }
 
 function setActiveTab(id) {
