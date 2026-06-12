@@ -579,7 +579,9 @@ function formatTeamList(teams) {
 }
 
 function getTeamFilterOptions() {
-  return Object.values(GROUPS).flat();
+  return Object.values(GROUPS).flat().sort((a, b) =>
+    a.localeCompare(b, "es", { sensitivity: "base" })
+  );
 }
 
 function formatTeamOptionText(team) {
