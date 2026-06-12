@@ -76,6 +76,54 @@ button.day-highlight {
   color: white;
 }
 
+.intro-balls {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(180deg, #ecfeffcc, #f4f7f800 62%);
+  animation: introFade 3.8s ease forwards;
+}
+
+.intro-ball {
+  position: absolute;
+  left: var(--start-x);
+  bottom: -80px;
+  font-size: var(--size);
+  filter: drop-shadow(0 10px 10px #0003);
+  animation:
+    ballTravel var(--duration) cubic-bezier(.22, .8, .2, 1) forwards,
+    ballBounce .62s ease-in-out infinite alternate,
+    ballSpin .8s linear infinite;
+  animation-delay: var(--delay), var(--delay), var(--delay);
+}
+
+@keyframes introFade {
+  0%, 72% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+@keyframes ballTravel {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  100% { transform: translate3d(var(--move-x), -115vh, 0) rotate(720deg); }
+}
+
+@keyframes ballBounce {
+  from { margin-bottom: 0; }
+  to { margin-bottom: 72px; }
+}
+
+@keyframes ballSpin {
+  to { rotate: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-balls {
+    display: none;
+  }
+}
+
 section {
   display: none;
   max-width: 1300px;
@@ -727,7 +775,37 @@ function render() {
   document.getElementById("participantsTable").innerHTML = renderParticipants();
 }
 
+function playIntroAnimation() {
+  const layer = document.createElement("div");
+  layer.className = "intro-balls";
+  layer.setAttribute("aria-hidden", "true");
+
+  [
+    ["8%", "28vw", "42px", "0s", "3.1s"],
+    ["18%", "-18vw", "34px", ".22s", "3.4s"],
+    ["34%", "22vw", "48px", ".06s", "3.6s"],
+    ["50%", "-24vw", "40px", ".34s", "3.2s"],
+    ["66%", "18vw", "52px", ".15s", "3.5s"],
+    ["80%", "-16vw", "36px", ".42s", "3.25s"],
+    ["92%", "-30vw", "46px", ".08s", "3.7s"]
+  ].forEach(([startX, moveX, size, delay, duration]) => {
+    const ball = document.createElement("span");
+    ball.className = "intro-ball";
+    ball.textContent = "⚽";
+    ball.style.setProperty("--start-x", startX);
+    ball.style.setProperty("--move-x", moveX);
+    ball.style.setProperty("--size", size);
+    ball.style.setProperty("--delay", delay);
+    ball.style.setProperty("--duration", duration);
+    layer.appendChild(ball);
+  });
+
+  document.body.appendChild(layer);
+  window.setTimeout(() => layer.remove(), 4200);
+}
+
 loadDataJson();
+playIntroAnimation();
 </script>
 </body>
 </html>
