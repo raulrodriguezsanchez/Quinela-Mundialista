@@ -591,7 +591,21 @@ function formatMatchDate(match) {
     .toLocaleDateString("es-MX", { weekday: "short", day: "numeric", month: "short" })
     .replace(".", "");
 
-  return `${pretty} ${year} · ${match.time} ${match.timezone || ""}`;
+  // Convertir hora a México (UTC-6)
+  const [hours, minutes] = match.time.split(":").map(Number);
+  
+  // Asumiendo que las horas vienen en UTC, restamos 6 horas
+  let mexicoHours = hours - 6;
+  let mexicoDay = day;
+  
+  if (mexicoHours < 0) {
+    mexicoHours += 24;
+    mexicoDay = String(Number(day) - 1).padStart(2, "0");
+  }
+  
+  const mexicoTime = `${String(mexicoHours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  
+  return `${pretty} ${year} · ${mexicoTime} (México UTC-6)`;
 }
 
 function getTodayISO() {
