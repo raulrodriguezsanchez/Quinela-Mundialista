@@ -692,19 +692,24 @@ function formatDateTitle(dateText) {
 }
 
 function renderParticipants() {
-  return (data.people || []).map(person => {
+  const participants = (data.people || []).map(person => {
     const participantName = typeof person === "string" ? person : person.name;
     const gain = getPersonGain(participantName);
 
-    return `
-      <tr>
-        <td><strong>${participantName}</strong></td>
-        <td>${gain.teams.length ? formatTeamList(gain.teams) : "Pendiente"}</td>
-        <td>${gain.wins}</td>
-        <td><strong>${gain.total.toLocaleString()} pts</strong></td>
-      </tr>
-    `;
-  }).join("") || `<tr><td colspan="4">No hay participantes registrados.</td></tr>`;
+    return { participantName, gain };
+  }).sort((a, b) =>
+    b.gain.total - a.gain.total ||
+    a.participantName.localeCompare(b.participantName, "es", { sensitivity: "base" })
+  );
+
+  return participants.map(({ participantName, gain }) => `
+    <tr>
+      <td><strong>${participantName}</strong></td>
+      <td>${gain.teams.length ? formatTeamList(gain.teams) : "Pendiente"}</td>
+      <td>${gain.wins}</td>
+      <td><strong>${gain.total.toLocaleString()} pts</strong></td>
+    </tr>
+  `).join("") || `<tr><td colspan="4">No hay participantes registrados.</td></tr>`;
 }
 
 function render() {
