@@ -617,7 +617,7 @@ function formatMatchDate(match) {
   const hour = String(mexicoDate.getUTCHours()).padStart(2, "0");
   const minute = String(mexicoDate.getUTCMinutes()).padStart(2, "0");
 
-  return `${pretty} ${year} · ${hour}:${minute} México (${MEXICO_TIMEZONE_LABEL})`;
+  return `${pretty} ${year} · ${hour}:${minute}`;
 }
 
 function getTodayISO() {
