@@ -582,30 +582,42 @@ function getPersonGain(person) {
   return { teams, total, wins, prizes };
 }
 
+const MEXICO_TIMEZONE_OFFSET = -6 * 60;
+const MEXICO_TIMEZONE_LABEL = "UTC-06";
+
+function parseTimezoneOffset(timezone) {
+  const match = String(timezone || MEXICO_TIMEZONE_LABEL).match(/^UTC([+-])(\d{2})$/);
+  if (!match) return MEXICO_TIMEZONE_OFFSET;
+
+  const sign = match[1] === "+" ? 1 : -1;
+  return sign * Number(match[2]) * 60;
+}
+
+function convertMatchToMexicoTime(match) {
+  const [year, month, day] = match.date.split("-").map(Number);
+  const [hour, minute] = match.time.split(":").map(Number);
+  const sourceOffset = parseTimezoneOffset(match.timezone);
+  const utcMs = Date.UTC(year, month - 1, day, hour, minute) - sourceOffset * 60000;
+  return new Date(utcMs + MEXICO_TIMEZONE_OFFSET * 60000);
+}
+
 function formatMatchDate(match) {
   if (!match.date || !match.time) return "";
 
-  const [year, month, day] = match.date.split("-");
-  const date = new Date(Number(year), Number(month) - 1, Number(day));
-  const pretty = date
-    .toLocaleDateString("es-MX", { weekday: "short", day: "numeric", month: "short" })
+  const mexicoDate = convertMatchToMexicoTime(match);
+  const pretty = mexicoDate
+    .toLocaleDateString("es-MX", {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      timeZone: "UTC"
+    })
     .replace(".", "");
+  const year = mexicoDate.getUTCFullYear();
+  const hour = String(mexicoDate.getUTCHours()).padStart(2, "0");
+  const minute = String(mexicoDate.getUTCMinutes()).padStart(2, "0");
 
-  // Convertir hora a México (UTC-6)
-  const [hours, minutes] = match.time.split(":").map(Number);
-  
-  // Asumiendo que las horas vienen en UTC, restamos 6 horas
-  let mexicoHours = hours - 6;
-  let mexicoDay = day;
-  
-  if (mexicoHours < 0) {
-    mexicoHours += 24;
-    mexicoDay = String(Number(day) - 1).padStart(2, "0");
-  }
-  
-  const mexicoTime = `${String(mexicoHours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-  
-  return `${pretty} ${year} · ${mexicoTime} (México UTC-6)`;
+  return `${pretty} ${year} · ${hour}:${minute} México (${MEXICO_TIMEZONE_LABEL})`;
 }
 
 function getTodayISO() {
