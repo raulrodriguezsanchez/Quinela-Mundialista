@@ -328,7 +328,7 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-19",
-      "time": "21:00",
+      "time": "20:30",
       "venue": "Estadio Filadelfia",
       "timezone": "UTC-04"
     },
@@ -472,7 +472,7 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-19",
-      "time": "21:00",
+      "time": "20:00",
       "venue": "Estadio de la Bahía de San Francisco",
       "timezone": "UTC-07"
     },
@@ -504,7 +504,7 @@
       "winner": "Alemania",
       "paid": false,
       "date": "2026-06-14",
-      "time": "18:00",
+      "time": "12:00",
       "venue": "Estadio Houston",
       "timezone": "UTC-05"
     },
@@ -584,7 +584,7 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-14",
-      "time": "13:00",
+      "time": "19:00",
       "venue": "Estadio Filadelfia",
       "timezone": "UTC-04"
     },
