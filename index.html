@@ -634,11 +634,13 @@ function isTodayMatch(match) {
 }
 
 function getMatchTimestamp(match) {
-  return `${match.date || "9999-12-31"}T${match.time || "99:99"}`;
+  if (!match.date || !match.time) return Number.POSITIVE_INFINITY;
+
+  return convertMatchToMexicoTime(match).getTime();
 }
 
 function bySchedule(a, b) {
-  return getMatchTimestamp(a).localeCompare(getMatchTimestamp(b)) ||
+  return getMatchTimestamp(a) - getMatchTimestamp(b) ||
     String(a.id).localeCompare(String(b.id));
 }
 
