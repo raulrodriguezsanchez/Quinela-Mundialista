@@ -301,22 +301,6 @@
       "timezone": "UTC-06"
     },
     {
-      "id": "Grupo H-España-Cabo Verde",
-      "phase": "Fase de grupos",
-      "group": "Grupo H",
-      "a": "España",
-      "b": "Cabo Verde",
-      "scoreA": "0",
-      "scoreB": "0",
-      "finished": true,
-      "winner": "Empate",
-      "paid": false,
-      "date": "2026-06-15",
-      "time": "12:00",
-      "venue": "Estadio Atlanta",
-      "timezone": "UTC-04"
-    },
-    {
       "id": "Grupo G-Bélgica-Egipto",
       "phase": "Fase de grupos",
       "group": "Grupo G",
@@ -333,19 +317,19 @@
       "timezone": "UTC-07"
     },
     {
-      "id": "Grupo H-Arabia Saudita-Uruguay",
+      "id": "Grupo H-España-Cabo Verde",
       "phase": "Fase de grupos",
       "group": "Grupo H",
-      "a": "Arabia Saudita",
-      "b": "Uruguay",
-      "scoreA": "1",
-      "scoreB": "1",
+      "a": "España",
+      "b": "Cabo Verde",
+      "scoreA": "0",
+      "scoreB": "0",
       "finished": true,
       "winner": "Empate",
       "paid": false,
       "date": "2026-06-15",
-      "time": "18:00",
-      "venue": "Estadio Miami",
+      "time": "12:00",
+      "venue": "Estadio Atlanta",
       "timezone": "UTC-04"
     },
     {
@@ -365,6 +349,22 @@
       "timezone": "UTC-07"
     },
     {
+      "id": "Grupo H-Arabia Saudita-Uruguay",
+      "phase": "Fase de grupos",
+      "group": "Grupo H",
+      "a": "Arabia Saudita",
+      "b": "Uruguay",
+      "scoreA": "1",
+      "scoreB": "1",
+      "finished": true,
+      "winner": "Empate",
+      "paid": false,
+      "date": "2026-06-15",
+      "time": "18:00",
+      "venue": "Estadio Miami",
+      "timezone": "UTC-04"
+    },
+    {
       "id": "Grupo I-Francia-Senegal",
       "phase": "Fase de grupos",
       "group": "Grupo I",
@@ -376,9 +376,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-16",
-      "time": "15:00",
-      "venue": "Estadio Nueva York/Nueva Jersey",
-      "timezone": "UTC-04"
+      "time": "13:00",
+      "venue": "Estadio Nueva Jersey",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo I-Irak-Noruega",
@@ -392,9 +392,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-16",
-      "time": "18:00",
+      "time": "16:00",
       "venue": "Estadio Boston",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo J-Argentina-Argelia",
@@ -408,9 +408,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-16",
-      "time": "20:00",
+      "time": "19:00",
       "venue": "Estadio Kansas City",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo J-Austria-Jordania",
@@ -424,9 +424,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-16",
-      "time": "21:00",
-      "venue": "Estadio de la Bahía de San Francisco",
-      "timezone": "UTC-07"
+      "time": "22:00",
+      "venue": "Estadio San Francisco",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo K-Portugal-RD Congo",
@@ -440,9 +440,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-17",
-      "time": "12:00",
+      "time": "11:00",
       "venue": "Estadio Houston",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo L-Inglaterra-Croacia",
@@ -456,9 +456,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-17",
-      "time": "15:00",
+      "time": "14:00",
       "venue": "Estadio Dallas",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo L-Ghana-Panamá",
@@ -472,9 +472,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-17",
-      "time": "19:00",
-      "venue": "Estadio de Toronto",
-      "timezone": "UTC-04"
+      "time": "17:00",
+      "venue": "Estadio Toronto",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo K-Uzbekistán-Colombia",
@@ -504,9 +504,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-18",
-      "time": "12:00",
+      "time": "10:00",
       "venue": "Estadio Atlanta",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo B-Bosnia y Herzegovina-Suiza",
@@ -520,9 +520,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-18",
-      "time": "12:00",
+      "time": "13:00",
       "venue": "Estadio Los Angeles",
-      "timezone": "UTC-07"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo B-Canadá-Qatar",
@@ -536,9 +536,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-18",
-      "time": "15:00",
-      "venue": "Estadio BC Place Vancouver",
-      "timezone": "UTC-07"
+      "time": "16:00",
+      "venue": "Estadio Vancouver",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo A-México-Corea del Sur",
@@ -568,9 +568,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-19",
-      "time": "12:00",
-      "venue": "Estadio de Seattle",
-      "timezone": "UTC-07"
+      "time": "13:00",
+      "venue": "Estadio Seattle",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo C-Marruecos-Escocia",
@@ -584,9 +584,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-19",
-      "time": "18:00",
+      "time": "16:00",
       "venue": "Estadio Boston",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo C-Brasil-Haití",
@@ -600,9 +600,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-19",
-      "time": "20:30",
-      "venue": "Estadio Filadelfia",
-      "timezone": "UTC-04"
+      "time": "18:30",
+      "venue": "Estadio Philadelphia",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo D-Paraguay-Türkiye",
@@ -616,9 +616,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-19",
-      "time": "20:00",
-      "venue": "Estadio de la Bahía de San Francisco",
-      "timezone": "UTC-07"
+      "time": "21:00",
+      "venue": "Estadio San Francisco",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo F-Países Bajos-Suecia",
@@ -632,9 +632,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-20",
-      "time": "12:00",
+      "time": "11:00",
       "venue": "Estadio Houston",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo E-Alemania-Costa de Marfil",
@@ -648,9 +648,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-20",
-      "time": "16:00",
-      "venue": "Estadio de Toronto",
-      "timezone": "UTC-04"
+      "time": "14:00",
+      "venue": "Estadio Toronto",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo E-Curaçao-Ecuador",
@@ -664,9 +664,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-20",
-      "time": "19:00",
+      "time": "18:00",
       "venue": "Estadio Kansas City",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo F-Japón-Túnez",
@@ -695,9 +695,9 @@
       "finished": false,
       "winner": "",
       "paid": false,
-      "date": "2026-06-14",
-      "time": "20:00",
-      "venue": "Estadio Monterrey",
+      "date": "2026-06-21",
+      "time": "10:00",
+      "venue": "Estadio Atlanta",
       "timezone": "UTC-06"
     },
     {
@@ -712,9 +712,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-21",
-      "time": "12:00",
+      "time": "13:00",
       "venue": "Estadio Los Angeles",
-      "timezone": "UTC-07"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo H-Cabo Verde-Uruguay",
@@ -728,9 +728,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-21",
-      "time": "18:00",
+      "time": "16:00",
       "venue": "Estadio Miami",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo G-Egipto-Nueva Zelanda",
@@ -744,9 +744,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-21",
-      "time": "18:00",
-      "venue": "Estadio BC Place Vancouver",
-      "timezone": "UTC-07"
+      "time": "19:00",
+      "venue": "Estadio Vancouver",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo J-Argentina-Austria",
@@ -760,9 +760,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-22",
-      "time": "12:00",
+      "time": "11:00",
       "venue": "Estadio Dallas",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo I-Francia-Irak",
@@ -776,9 +776,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-22",
-      "time": "17:00",
-      "venue": "Estadio Filadelfia",
-      "timezone": "UTC-04"
+      "time": "15:00",
+      "venue": "Estadio Philadelphia",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo I-Senegal-Noruega",
@@ -792,9 +792,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-22",
-      "time": "20:00",
-      "venue": "Estadio Nueva York/Nueva Jersey",
-      "timezone": "UTC-04"
+      "time": "18:00",
+      "venue": "Estadio Nueva Jersey",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo J-Argelia-Jordania",
@@ -808,9 +808,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-22",
-      "time": "20:00",
-      "venue": "Estadio de la Bahía de San Francisco",
-      "timezone": "UTC-07"
+      "time": "21:00",
+      "venue": "Estadio San Francisco",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo K-Portugal-Uzbekistán",
@@ -824,9 +824,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-23",
-      "time": "12:00",
+      "time": "11:00",
       "venue": "Estadio Houston",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo L-Inglaterra-Ghana",
@@ -840,9 +840,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-23",
-      "time": "16:00",
+      "time": "14:00",
       "venue": "Estadio Boston",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo L-Panamá-Croacia",
@@ -856,9 +856,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-23",
-      "time": "19:00",
-      "venue": "Estadio de Toronto",
-      "timezone": "UTC-04"
+      "time": "17:00",
+      "venue": "Estadio Toronto",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo K-Colombia-RD Congo",
@@ -888,9 +888,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-24",
-      "time": "12:00",
-      "venue": "Estadio de Seattle",
-      "timezone": "UTC-07"
+      "time": "13:00",
+      "venue": "Estadio Seattle",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo B-Canadá-Suiza",
@@ -904,9 +904,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-24",
-      "time": "12:00",
-      "venue": "Estadio BC Place Vancouver",
-      "timezone": "UTC-07"
+      "time": "13:00",
+      "venue": "Estadio Vancouver",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo C-Brasil-Escocia",
@@ -920,9 +920,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-24",
-      "time": "18:00",
+      "time": "16:00",
       "venue": "Estadio Miami",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo C-Marruecos-Haití",
@@ -936,9 +936,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-24",
-      "time": "18:00",
+      "time": "16:00",
       "venue": "Estadio Atlanta",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo A-México-Chequia",
@@ -969,7 +969,7 @@
       "paid": false,
       "date": "2026-06-24",
       "time": "19:00",
-      "venue": "Estadio Monterrey",
+      "venue": "Estadio Guadalajara",
       "timezone": "UTC-06"
     },
     {
@@ -984,9 +984,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-25",
-      "time": "16:00",
-      "venue": "Estadio Nueva York/Nueva Jersey",
-      "timezone": "UTC-04"
+      "time": "14:00",
+      "venue": "Estadio Nueva Jersey",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo E-Curaçao-Costa de Marfil",
@@ -1000,9 +1000,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-25",
-      "time": "16:00",
-      "venue": "Estadio Filadelfia",
-      "timezone": "UTC-04"
+      "time": "14:00",
+      "venue": "Estadio Philadelphia",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo F-Japón-Suecia",
@@ -1016,9 +1016,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-25",
-      "time": "18:00",
+      "time": "17:00",
       "venue": "Estadio Dallas",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo F-Países Bajos-Túnez",
@@ -1032,9 +1032,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-25",
-      "time": "18:00",
+      "time": "17:00",
       "venue": "Estadio Kansas City",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo D-Estados Unidos-Türkiye",
@@ -1048,9 +1048,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-25",
-      "time": "19:00",
+      "time": "20:00",
       "venue": "Estadio Los Angeles",
-      "timezone": "UTC-07"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo D-Paraguay-Australia",
@@ -1064,9 +1064,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-25",
-      "time": "19:00",
-      "venue": "Estadio de la Bahía de San Francisco",
-      "timezone": "UTC-07"
+      "time": "20:00",
+      "venue": "Estadio San Francisco",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo I-Francia-Noruega",
@@ -1080,9 +1080,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-26",
-      "time": "15:00",
+      "time": "13:00",
       "venue": "Estadio Boston",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo I-Senegal-Irak",
@@ -1096,9 +1096,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-26",
-      "time": "15:00",
-      "venue": "Estadio de Toronto",
-      "timezone": "UTC-04"
+      "time": "13:00",
+      "venue": "Estadio Toronto",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo H-Cabo Verde-Arabia Saudita",
@@ -1112,9 +1112,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-26",
-      "time": "19:00",
+      "time": "18:00",
       "venue": "Estadio Houston",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo H-España-Uruguay",
@@ -1144,9 +1144,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-26",
-      "time": "20:00",
-      "venue": "Estadio BC Place Vancouver",
-      "timezone": "UTC-07"
+      "time": "21:00",
+      "venue": "Estadio Vancouver",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo G-Egipto-Irán",
@@ -1160,9 +1160,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-26",
-      "time": "20:00",
-      "venue": "Estadio de Seattle",
-      "timezone": "UTC-07"
+      "time": "21:00",
+      "venue": "Estadio Seattle",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo L-Ghana-Croacia",
@@ -1176,9 +1176,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-27",
-      "time": "17:00",
-      "venue": "Estadio Filadelfia",
-      "timezone": "UTC-04"
+      "time": "15:00",
+      "venue": "Estadio Philadelphia",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo L-Inglaterra-Panamá",
@@ -1192,9 +1192,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-27",
-      "time": "17:00",
-      "venue": "Estadio Nueva York/Nueva Jersey",
-      "timezone": "UTC-04"
+      "time": "15:00",
+      "venue": "Estadio Nueva Jersey",
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo K-Portugal-Colombia",
@@ -1208,9 +1208,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-27",
-      "time": "19:30",
+      "time": "17:30",
       "venue": "Estadio Miami",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo K-Uzbekistán-RD Congo",
@@ -1224,9 +1224,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-27",
-      "time": "19:30",
+      "time": "17:30",
       "venue": "Estadio Atlanta",
-      "timezone": "UTC-04"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo J-Argelia-Austria",
@@ -1240,9 +1240,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-27",
-      "time": "21:00",
+      "time": "20:00",
       "venue": "Estadio Kansas City",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     },
     {
       "id": "Grupo J-Argentina-Jordania",
@@ -1256,9 +1256,9 @@
       "winner": "",
       "paid": false,
       "date": "2026-06-27",
-      "time": "21:00",
+      "time": "20:00",
       "venue": "Estadio Dallas",
-      "timezone": "UTC-05"
+      "timezone": "UTC-06"
     }
   ],
   "knockout": {
