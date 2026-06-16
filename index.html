@@ -82,6 +82,11 @@ button.day-highlight {
   color: white;
 }
 
+button.board-highlight {
+  background: #111827;
+  color: white;
+}
+
 .intro-balls {
   position: fixed;
   inset: 0;
@@ -456,7 +461,7 @@ th {
   <button onclick="showTab('grupos')">Fase de grupos</button>
   <button onclick="showTab('puntajes')">Puntajes</button>
   <button onclick="showTab('bracket')">Eliminatorias</button>
-  <button onclick="showTab('participantes')">Tablero de participantes</button>
+  <button class="board-highlight" onclick="showTab('participantes')">Tablero de participantes</button>
 </nav>
 
 <section id="filtrar">
