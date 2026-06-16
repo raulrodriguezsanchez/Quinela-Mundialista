@@ -43,6 +43,12 @@ header p {
   color: #d1fae5;
 }
 
+.header-rules-button {
+  margin-top: 8px;
+  background: white;
+  color: #134e4a;
+}
+
 nav {
   display: flex;
   gap: 8px;
@@ -189,6 +195,73 @@ section.active {
   padding: 12px;
 }
 
+.standings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.standings-card {
+  border-radius: 16px;
+  padding: 12px;
+  background: var(--card);
+  box-shadow: 0 3px 12px #00000012;
+  overflow-x: auto;
+}
+
+.standings-card h3 {
+  margin: 0 0 10px;
+}
+
+.standings-table th,
+.standings-table td {
+  padding: 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.standings-table th {
+  background: #0f172a;
+  color: white;
+}
+
+.standings-table th:first-child,
+.standings-table td:first-child {
+  text-align: left;
+}
+
+.standings-table th:last-child,
+.standings-table td:last-child {
+  background: #fef3c7;
+  color: #713f12;
+  font-weight: 800;
+}
+
+.standings-table tr.qualifying td {
+  background: #ecfdf5;
+  color: #064e3b;
+  font-weight: 700;
+}
+
+.standings-table tr.qualifying td:last-child {
+  background: #fde68a;
+  color: #713f12;
+}
+
+.standings-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.standings-legend span {
+  white-space: nowrap;
+}
+
 .group-title {
   display: flex;
   align-items: center;
@@ -323,6 +396,10 @@ th {
 }
 
 @media (max-width: 640px) {
+  .standings-grid {
+    grid-template-columns: 1fr;
+  }
+
   .group-columns {
     grid-template-columns: repeat(12, minmax(250px, 1fr));
   }
@@ -334,14 +411,14 @@ th {
 </style>
 </head>
 <body>
-<header><h1>Quinela Mundial 2026</h1><p>Seguimiento</p></header>
+<header><h1>Quinela Mundial 2026</h1><button class="header-rules-button" onclick="showTab('reglas')">Reglas</button></header>
 <nav>
   <button class="highlight" onclick="showTab('filtrar')">Filtrar mi equipo</button>
   <button class="day-highlight" onclick="showTab('dia')">Juegos del día</button>
   <button onclick="showTab('grupos')">Fase de grupos</button>
+  <button onclick="showTab('puntajes')">Puntajes</button>
   <button onclick="showTab('bracket')">Eliminatorias</button>
   <button onclick="showTab('participantes')">Tablero de participantes</button>
-  <button onclick="showTab('reglas')">Reglas</button>
 </nav>
 
 <section id="filtrar">
@@ -365,6 +442,7 @@ th {
   </div>
 </section>
 <section id="grupos" class="active"><h2>Fase de grupos</h2><div id="groupMatches"></div></section>
+<section id="puntajes"><h2>Puntajes</h2><div id="standingsView"></div></section>
 <section id="bracket"><h2>Eliminatorias</h2><div class="bracket" id="bracketView"></div></section>
 <section id="participantes"><h2>Participantes y puntos acumulados</h2><table><thead><tr><th>Participante</th><th>Equipo</th><th>Juegos ganados</th><th>Puntos ganados</th></tr></thead><tbody id="participantsTable"></tbody></table></section>
 <section id="reglas"><div class="card"><h2>Reglas de la Quinela</h2><ul class="rules"><li>Juego ganado: <strong>50 puntos</strong>.</li><li>Juego empatado: <strong>50 puntos se acumulan al premio del primer lugar</strong>.</li><li>Primer lugar: <strong>3000 puntos + acumulado de empates</strong>.</li><li>Segundo lugar: <strong>2000 puntos</strong>.</li><li>Tercer lugar: <strong>1800 puntos</strong>.</li></ul></div><div class="totalBox"><div class="metric"><span>Acumulado por empates</span><br><strong id="tiePool">0</strong> pts</div><div class="metric"><span>Partidos finalizados</span><br><strong id="finishedCount">0</strong></div><div class="metric"><span>Equipos asignados</span><br><strong id="assignedCount">0</strong></div></div></section>
@@ -728,6 +806,127 @@ function renderBracket(allMatches) {
   `).join("");
 }
 
+function createEmptyStanding(team) {
+  return {
+    team,
+    played: 0,
+    wins: 0,
+    draws: 0,
+    losses: 0,
+    goalsFor: 0,
+    goalsAgainst: 0,
+    goalDifference: 0,
+    points: 0
+  };
+}
+
+function addMatchToStandings(standings, match) {
+  if (!match.finished) return;
+
+  const scoreA = Number(match.scoreA);
+  const scoreB = Number(match.scoreB);
+  if (!Number.isFinite(scoreA) || !Number.isFinite(scoreB)) return;
+  if (!standings[match.a] || !standings[match.b]) return;
+
+  const teamA = standings[match.a];
+  const teamB = standings[match.b];
+  teamA.played++;
+  teamB.played++;
+  teamA.goalsFor += scoreA;
+  teamA.goalsAgainst += scoreB;
+  teamB.goalsFor += scoreB;
+  teamB.goalsAgainst += scoreA;
+  teamA.goalDifference = teamA.goalsFor - teamA.goalsAgainst;
+  teamB.goalDifference = teamB.goalsFor - teamB.goalsAgainst;
+
+  if (scoreA === scoreB) {
+    teamA.draws++;
+    teamB.draws++;
+    teamA.points++;
+    teamB.points++;
+    return;
+  }
+
+  const winner = scoreA > scoreB ? teamA : teamB;
+  const loser = scoreA > scoreB ? teamB : teamA;
+  winner.wins++;
+  winner.points += 3;
+  loser.losses++;
+}
+
+function getGroupStandings(group, groupMatches) {
+  const standings = Object.fromEntries(
+    GROUPS[group].map(team => [team, createEmptyStanding(team)])
+  );
+
+  groupMatches
+    .filter(match => match.group === group)
+    .forEach(match => addMatchToStandings(standings, match));
+
+  return Object.values(standings).sort((a, b) =>
+    b.points - a.points ||
+    b.goalDifference - a.goalDifference ||
+    b.goalsFor - a.goalsFor ||
+    a.team.localeCompare(b.team, "es", { sensitivity: "base" })
+  );
+}
+
+function renderStandings(groupMatches) {
+  return `
+    <div class="standings-grid">
+      ${Object.keys(GROUPS).map(group => {
+        const standings = getGroupStandings(group, groupMatches);
+
+        return `
+          <div class="standings-card">
+            <h3>${group}</h3>
+            <table class="standings-table">
+              <thead>
+                <tr>
+                  <th>Equipo</th>
+                  <th>PJ</th>
+                  <th>G</th>
+                  <th>E</th>
+                  <th>P</th>
+                  <th>GF</th>
+                  <th>GC</th>
+                  <th>DG</th>
+                  <th>Pts</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${standings.map((team, index) => `
+                  <tr class="${index < 2 ? "qualifying" : ""}">
+                    <td>${formatTeamName(team.team)}</td>
+                    <td>${team.played}</td>
+                    <td>${team.wins}</td>
+                    <td>${team.draws}</td>
+                    <td>${team.losses}</td>
+                    <td>${team.goalsFor}</td>
+                    <td>${team.goalsAgainst}</td>
+                    <td>${team.goalDifference}</td>
+                    <td><strong>${team.points}</strong></td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+            <div class="standings-legend">
+              <span><strong>PJ</strong>: partidos jugados</span>
+              <span><strong>G</strong>: ganados</span>
+              <span><strong>E</strong>: empatados</span>
+              <span><strong>P</strong>: perdidos</span>
+              <span><strong>GF</strong>: goles a favor</span>
+              <span><strong>GC</strong>: goles en contra</span>
+              <span><strong>DG</strong>: diferencia de goles</span>
+              <span><strong>Pts</strong>: puntos</span>
+            </div>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
+}
+
 function renderTeamFilter(allMatches) {
   const teams = getTeamFilterOptions();
   const selectedTeam = selectedTeamFilter;
@@ -806,6 +1005,7 @@ function render() {
   renderTeamFilter(allMatches);
   renderDayFilter(allMatches);
   document.getElementById("groupMatches").innerHTML = renderGroups(allMatches);
+  document.getElementById("standingsView").innerHTML = renderStandings(data.matches || []);
   document.getElementById("bracketView").innerHTML = renderBracket(allMatches);
   document.getElementById("participantsTable").innerHTML = renderParticipants();
 }
