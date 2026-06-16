@@ -396,8 +396,40 @@ th {
 }
 
 @media (max-width: 640px) {
+  #puntajes {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
   .standings-grid {
     grid-template-columns: 1fr;
+  }
+
+  .standings-card {
+    padding: 8px;
+    overflow-x: visible;
+  }
+
+  .standings-table {
+    table-layout: fixed;
+    font-size: 11px;
+  }
+
+  .standings-table th,
+  .standings-table td {
+    padding: 6px 3px;
+  }
+
+  .standings-table th:first-child,
+  .standings-table td:first-child {
+    width: 34%;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  .standings-table th:not(:first-child),
+  .standings-table td:not(:first-child) {
+    width: 8.25%;
   }
 
   .group-columns {
